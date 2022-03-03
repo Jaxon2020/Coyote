@@ -15,7 +15,7 @@ def IPstore(pkt):
             try:
                 IPlist.append(pkt[i][1].src)
                 IPlist.append(pkt[i][1].dst)
-                print("Sender: ", pkt[i][1].src, "Receiver: ", pkt[i][1].dst, "Protocol", pkt[i][1].proto)
+                #print("Sender: ", pkt[i][1].src, "Receiver: ", pkt[i][1].dst, "Protocol", pkt[i][1].proto)
         
             except: 
                 continue
@@ -36,12 +36,12 @@ def IPtracker(count):
     pkt =  scapy.sniff(count=count, prn=IPstore)
     IPset = set(IPlist)
 
-    print(IPlist)
     print(IPset)
 
 def main():
     sg.theme('DarkAmber')
-    layout = [[sg.Text('IP Tracker', font='Default 18')],
+    layout =  [[sg.Text('IP Tracker', font='Default 18')],
+              [sg.Output(size=(80, 20))],
               [sg.T('Count Amount', size=(8,1)), sg.Input(key='-Count-', size=(35,1))],
               [sg.Button('Send'), sg.Button('Exit')]]
 
@@ -52,15 +52,16 @@ def main():
         if event in (sg.WIN_CLOSED, 'Exit'):
             break
         if event == 'Send':
-            if sg.__name__ != 'PySimpleGUIWeb':     # auto close popups not yet supported in PySimpleGUIWeb
+            if sg.__name__ != 'PySimpleGUIWeb':  
                 sg.popup_quick_message('Running IPtracker... this will take a moment...', background_color='red')
             
-            IPtracker(count=int(values['-Count-']))
+            print(IPtracker(count=int(values['-Count-'])))
+            
                           
 
     window.close()
 
 if __name__ == '__main__':
-
+   
     icon = 'images/IMG-0886.PNG'
     main()
