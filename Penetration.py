@@ -1,4 +1,6 @@
+from operator import index
 import subprocess
+from tkinter.tix import COLUMN
 import PySimpleGUI as sg
 import nmap
 import pandas as ps
@@ -7,9 +9,7 @@ import GUItraffic as Packets
 import shlex
 
 ninfo = open('nmapinfo.txt', 'r')
-
 contents = ninfo.read()
-
 ninfo.close()
 
 
@@ -60,7 +60,8 @@ def NMAP():
 
                 print("\n"'Host: %s(%s)' % (values['-IP-'], nm[values['-IP-']].hostname()))
                 print("\n"'State : %s' % nm[values['-IP-']].state())
-
+                
+                
                 print( "\n", test_data[['protocol', 'port', 'name', 'state', 'reason']])
             except:
                 print("Error!")
@@ -69,7 +70,39 @@ def NMAP():
     window.close()
 
 
+def EnumResults():
 
+    sg.theme('DarkPurple6')
+
+
+    layout = [
+        
+            
+            [sg.Text("Coyote", size=(40, 1), font=('Any 15'))],
+            [sg.Text("Results from enumeration")],
+            [sg.Text("Waiting for Data", key='-P&S-')],
+            [sg.Output(size=(30,10), key='-1OUT-')],
+            [sg.Button("Display", key="-ESEND-", bind_return_key=True)],
+            [sg.Button("Exit", button_color=('white', 'firebrick3'), key='Exit') ]
+            
+            
+            ]
+    window = sg.Window("Results Window", layout, icon='images/Coyote.ico', no_titlebar=True, grab_anywhere=True, element_justification='c', alpha_channel=.9)
+    choice = None
+    while True:
+        event, values = window.read()
+        if event == "-ESEND-":
+            
+            
+            nmr = ps.read_csv('nmapdump.csv', sep = ';', header = 0)
+            
+            window['-P&S-'].update((nmr['port'].astype(str) + " " + nmr['name'].astype(str)).to_string(index=False))
+          
+            
+        if event == "Exit" or event == sg.WIN_CLOSED:
+            break
+
+    window.close()
 
 def Gobuster():
 
@@ -146,6 +179,7 @@ def PenHUB():
             [sg.Text("Penetration Testing")],
             [sg.Button("Enumeration", button_color=('white', 'firebrick3'), key='-ENUM-')],
             [sg.Button("Exploitation", button_color=('white', 'firebrick3'), key='-EXP-')],
+            [sg.Button("Information Gathered", button_color=('white', 'firebrick3'), key='-EOUT-')],
             [sg.Button("Exit", button_color=('white', 'firebrick3'), key='-EXIT-')]
             ]
     window = sg.Window("PEN Window", layout, icon='images/Coyote.ico', no_titlebar=True, grab_anywhere=True, element_justification='c', alpha_channel=.9)
@@ -154,9 +188,10 @@ def PenHUB():
         event, values = window.read()
         if event == "-ENUM-":
             Enumeration()
-            break
         if event == "-EXP-":
             break
+        if event == "-EOUT-":
+            EnumResults()
         if event == "-EXIT-" or event == sg.WIN_CLOSED:
             break
 
