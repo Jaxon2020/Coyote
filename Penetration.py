@@ -74,11 +74,36 @@ def EnumResults():
 
     sg.theme('DarkPurple6')
 
+    ART = """
+    
+        ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        ,,,,,,,,,,,@@@@,,,,,,,,,@@@@,,,,,,,,,,,,
+        ,,,,,,,,,,,@@@@@@@@@@@@@@@@@@,,,,,,,,,,,
+        ,,,,,,,,,,,,@@@@@@@@@@@@@@@@@,,,,,,,,,,,
+        ,,,,,,,,,,,,,,,,,@,,,,@@@@@@@@,,,,,,,,,,
+        ,,,,,,,,,,,,,,,,@@,,,,,,@@@@@@,,,,,,,,,,
+        ,,,,,,,,,,,,,@@@@@@@@,,@@@@@@,,,,,,,,,,,
+        ,,,,,,,,,,,,@@@@@@@@@@@@@,,,,,,,,,,,,,,,
+        ,,,,,,,,,,,,,@@@@@@@,,,,,,,,,,,,,,,,,,,,
+        ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+        ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+    
+    
+        """
 
     layout = [
         
             
-            [sg.Text("Coyote", size=(40, 1), font=('Any 15'))],
+            
+
+
+            [sg.Text("Coyote", size=(40, 1))],
+            [sg.Text(ART)],
             [sg.Text("Results from enumeration")],
             [sg.Text("Waiting for Data", key='-P&S-')],
             [sg.Output(size=(30,10), key='-1OUT-')],
@@ -87,7 +112,7 @@ def EnumResults():
             
             
             ]
-    window = sg.Window("Results Window", layout, icon='images/Coyote.ico', no_titlebar=True, grab_anywhere=True, element_justification='c', alpha_channel=.9)
+    window = sg.Window("Results Window", layout, icon='images/Coyote.ico', no_titlebar=True, grab_anywhere=True, element_justification='c', alpha_channel=.9, font=('Courier 15'))
     choice = None
     while True:
         event, values = window.read()
