@@ -7,6 +7,7 @@ import os
 import GUItraffic as Packets
 import shlex
 import Penetration as Pen
+
 ninfo = open('nmapinfo.txt', 'r')
 
 contents = ninfo.read()
@@ -32,7 +33,7 @@ def cli():
             
             
             ]
-    window = sg.Window("CLI Window", layout, icon='images/Coyote.ico', no_titlebar=True, grab_anywhere=True, element_justification='c', alpha_channel=.9)
+    window = sg.Window("CLI Window", layout, icon='images/Coyote.ico', no_titlebar=True, grab_anywhere=True, element_justification='c', alpha_channel=.9, font=('Courier 15'))
     choice = None
     while True:
         event, values = window.read()
@@ -52,24 +53,87 @@ def cli():
 
 
 def main():
+
+    ART = """    
+                                            
+                                    ░█████╗░░█████╗░██╗░░░██╗░█████╗░████████╗███████╗
+                                    ██╔══██╗██╔══██╗╚██╗░██╔╝██╔══██╗╚══██╔══╝██╔════╝
+                                    ██║░░╚═╝██║░░██║░╚████╔╝░██║░░██║░░░██║░░░█████╗░░
+                                    ██║░░██╗██║░░██║░░╚██╔╝░░██║░░██║░░░██║░░░██╔══╝░░
+                                    ╚█████╔╝╚█████╔╝░░░██║░░░╚█████╔╝░░░██║░░░███████╗
+                                    ░╚════╝░░╚════╝░░░░╚═╝░░░░╚════╝░░░░╚═╝░░░╚══════╝
+                                    
     
+    """
+    
+    ART2 = """
+    
+    
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,@@@@,,,,,,,,,,,,,,,,,,,,,,,,,@@@@@,,,,,,
+,,,,,@@@@@@@@,,,,,,,,,,,,,,,,,,@@@@@@@@@,,,,,
+,,,,,#@@@@@@@@@@@@*,,,,,,,,,,@@@@@@@@@@@@,,,,
+,,,,,,@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@,,,,
+,,,,,,,@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@,,,,
+,,,,,,,,@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@,,,,
+,,,,,,,,,@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@,,,
+,,,,,,,,,,,,,,,,,@@@,,,,,,,,@@@@@@@@@@@@@@@,,
+,,,,,,,,,,,,,,,,,@@,,,,,,,,,,,,@@@@@@@@@@@@,,
+,,,,,,,,,,,,,,,,@@@@,,,,,,,,,,,@@@@@@@@@@@@,,
+,,,,,,,,,*,,,@@@@@@@@*,,,,,,,,,@@@@@@@@@@@,,,
+,,,,,,,,,&@@@@@@@@@@@@@@@,,*,@@@@@@@@@@@@,,,,
+,,,,,,,,,@@@@@@@@@@@@@@@@@@@@@@@@@@@@@,,,,,,,
+,,,,,,,&@@@@@@@@@@@@@@@@@@@@@@@@@@,,,,,,,,,,,
+,,,,,,,@@@@@@@@@@@@@@@@@@@@@@*,,,,,,,,,,,,,,,
+,,,,,,,,,@@@@@@@@@@@@@@,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,@@@@/,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+    
+    
+        """
+    
+    ART4 = """
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,@@@@,,,,,,,,,@@@@,,,,,
+,,,,,@@@@@@@@@@@@@@@@@@,,,,
+,,,,,,@@@@@@@@@@@@@@@@@,,,,
+,,,,,,,,,,,@,,,,@@@@@@@@,,,
+,,,,,,,,,,@@,,,,,,@@@@@@,,,
+,,,,,,,@@@@@@@@,,@@@@@@,,,,
+,,,,,,@@@@@@@@@@@@@,,,,,,,,
+,,,,,,,@@@@@@@,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,
+
+    """
+
+    ART3 = """
+
+   .+------+     +------+     +------+     +------+     +------+.
+ .' |    .'|    /|     /|     |      |     |\     |\    |`.    | `.
++---+--+'  |   +-+----+ |     +------+     | +----+-+   |  `+--+---+
+|   |  |   |   | |    | |     |      |     | |    | |   |   |  |   |
+|  ,+--+---+   | +----+-+     +------+     +-+----+ |   +---+--+   |
+|.'    | .'    |/     |/      |      |      \|     \|    `. |   `. |
++------+'      +------+       +------+       +------+      `+------+
+    """
     
     sg.theme('DarkAmber')
 
     
     layout = [
         
-            [sg.Button("Exit", key="-MENUEXIT-", button_color=('white', 'firebrick3'), pad=(250,0))],
-            [sg.Text("Coyote", size=(40, 1), font=('Any 15'))],
+            [sg.Text(ART4), sg.Text(ART3), sg.Text(ART4)],
+            [sg.Text(ART)],
             [sg.Text("Homepage")],
             [sg.Text("Menu WIP: Options below")],
             [sg.Button("Get Started", button_color=('white', 'firebrick3'), key='-GS-'), sg.Button("Penetration Testing", button_color=('white', 'firebrick3'), key='-PT-')],
             #[sg.Button("IPTracker", button_color=('white', 'firebrick3'), key='-IP-') ],
-            [sg.Button("CLI", button_color=('white', 'firebrick3'), key='-CLI-') ]
+            [sg.Button("CLI", button_color=('white', 'firebrick3'), key='-CLI-') ],
+            [sg.Button("Exit", key="-MENUEXIT-", button_color=('white', 'firebrick3'), pad=(250,0))]
           
             
             ]
-    window = sg.Window("Main Menu", layout, icon=icon, grab_anywhere=True, alpha_channel=.9)
+    window = sg.Window("Main Menu", layout, icon=icon, grab_anywhere=True, font=('Courier'), resizable=True, auto_size_text=True)
     choice = None
 
     while True:
