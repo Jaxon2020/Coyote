@@ -33,7 +33,7 @@ def cli():
             
             
             ]
-    window = sg.Window("CLI Window", layout, icon='images/Coyote.ico', no_titlebar=True, grab_anywhere=True, element_justification='c', alpha_channel=.9, font=('Courier 15'))
+    window = sg.Window("CLI Window", layout, icon='images/Coyote.ico', grab_anywhere=True, element_justification='c', alpha_channel=.9, font=('Courier'), resizable=True)
     choice = None
     while True:
         event, values = window.read()
@@ -141,7 +141,7 @@ def main():
 
 
         if event == "-PT-":
-            Pen.PenHUB()
+            Pen.PenTest()
         if event == "-CLI-":
             cli()
             

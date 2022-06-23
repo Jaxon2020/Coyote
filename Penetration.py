@@ -1,4 +1,6 @@
+from asyncio.windows_events import NULL
 from operator import index
+from pydoc import visiblename
 import subprocess
 from tkinter.tix import COLUMN
 import PySimpleGUI as sg
@@ -26,7 +28,7 @@ def NMAP():
 
             
                 ]
-    window = sg.Window("Main Window", layout, icon='images/Coyote.ico', no_titlebar=True, grab_anywhere=True, element_justification='c', alpha_channel=.9)
+    window = sg.Window("Main Window", layout, icon='images/Coyote.ico', grab_anywhere=True, element_justification='c', alpha_channel=.9)
     while True:
         event, values = window.read()
         if event == "Exit" or event == sg.WIN_CLOSED:
@@ -70,34 +72,62 @@ def NMAP():
     window.close()
 
 
-def EnumResults():
+def PenTest():
 
     sg.theme('DarkPurple6')
 
     ART = """
     
-        ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-        ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-        ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-        ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-        ,,,,,,,,,,,@@@@,,,,,,,,,@@@@,,,,,,,,,,,,
-        ,,,,,,,,,,,@@@@@@@@@@@@@@@@@@,,,,,,,,,,,
-        ,,,,,,,,,,,,@@@@@@@@@@@@@@@@@,,,,,,,,,,,
-        ,,,,,,,,,,,,,,,,,@,,,,@@@@@@@@,,,,,,,,,,
-        ,,,,,,,,,,,,,,,,@@,,,,,,@@@@@@,,,,,,,,,,
-        ,,,,,,,,,,,,,@@@@@@@@,,@@@@@@,,,,,,,,,,,
-        ,,,,,,,,,,,,@@@@@@@@@@@@@,,,,,,,,,,,,,,,
-        ,,,,,,,,,,,,,@@@@@@@,,,,,,,,,,,,,,,,,,,,
-        ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-        ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-        ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-        ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+     .=====.. |==|
+    ||     || |= |
+ _  ||     || |^*| _
+|=| o=,===,=o |__||=|
+|_|  _______)~`)  |_|
+    [=======]  ()    
     
     
         """
 
 
 
+    ART2 = """
+   
+           .=====.. |==|
+          ||     || |= |
+       _  ||     || |^*| _
+<=====|=| o=,===,=o |__||=|
+      |_|  _______)~`)  |_|
+          [=======]  ()    
+                
+
+            """
+
+
+
+
+    ART3 = """
+
+           .=====.. |==|
+          ||     || |= |
+       _  ||     || |^*| _
+<=====|=| o=,===,=o |__||=|=====>
+      |_|  _______)~`)  |_|
+          [=======]  ()    
+                
+            """
+
+
+
+    leftcol = [
+
+
+        [sg.pin(sg.Text("Awaiting Data", key='-INFOTITLE-', visible=False)), sg.Push()],
+        
+        [sg.pin(sg.Text("Waiting for Data", key='-DC-', visible=False))],
+        
+
+
+    ]
 
     layout = [
         
@@ -105,28 +135,43 @@ def EnumResults():
             
 
 
-            [sg.Text("Coyote", size=(40, 1))],
-            [sg.Text(ART)],
-            [sg.Text("Results from enumeration")],
-            [sg.Text("Waiting for Data", key='-P&S-')],
-            [sg.Output(size=(30,10), key='-1OUT-')],
+            [sg.Text("Coyote")],
+            [sg.Column(leftcol, element_justification='c') ,sg.Text(ART, key='-ART-'), sg.pin(sg.Text("Waiting for Data", key='-WEB-', visible=False))],
+            [sg.Text("Enter Commands"),sg.Input(key='-IN-'),sg.Button("Intiate CLI", key='-CLI-')],
+            [sg.Output(size=(40,15), key='-1OUT-')],
             [sg.Button("Display", key="-ESEND-", bind_return_key=True)],
             [sg.Button("Exit", button_color=('white', 'firebrick3'), key='Exit') ]
             
             
             ]
-    window = sg.Window("Results Window", layout, icon='images/Coyote.ico', no_titlebar=True, grab_anywhere=True, element_justification='c', alpha_channel=.9, font=('Courier 15'))
+    window = sg.Window("Results Window", layout, icon='images/Coyote.ico', grab_anywhere=True, element_justification='c', alpha_channel=.9, font=('Courier'), resizable=True, auto_size_text=True)
     choice = None
     while True:
         event, values = window.read()
         if event == "-ESEND-":
             
-            
+            webr = NULL
             nmr = ps.read_csv('nmapdump.csv', sep = ';', header = 0)
-            
-            window['-P&S-'].update((nmr['port'].astype(str) + " " + nmr['name'].astype(str)).to_string(index=False))
-          
-            
+            if nmr.empty:
+                print("No data to display")
+            elif(webr == NULL):
+                window['-ART-'].update(ART2)
+                window['-DC-'].update((nmr['protocol'].astype(str) + " " + nmr['port'].astype(str) + " " + nmr['name'].astype(str)).to_string(index=False), visible=True)
+                #window['-WEB-'].update((nmr['port'].astype(str) + " " + nmr['name'].astype(str)).to_string(index=False), visible=True)
+                window['-INFOTITLE-'].update(("Host:" + " " + nmr['host'][0] + "(" + nmr['hostname'][0] + ")"),visible=True)
+            else:
+                  window['-ART-'].update(ART3)
+                  window['-DC-'].update((nmr['protocol'].astype(str) + " " + nmr['port'].astype(str) + " " + nmr['name'].astype(str)).to_string(index=False), visible=True)
+                  window['-INFOTITLE-'].update(("Host:" + " " + nmr['host'][0] + "(" + nmr['hostname'][0] + ")"),visible=True)
+                
+        if event == "-CLI-":
+            try: 
+                args = shlex.split(values['-IN-'])
+
+                output = subprocess.Popen(args, stdout=subprocess.PIPE).communicate()[0] 
+                print(output.decode('utf-8'))
+            except:
+                print("Error!")
         if event == "Exit" or event == sg.WIN_CLOSED:
             break
 
@@ -149,7 +194,7 @@ def Gobuster():
             
             
             ]
-    window = sg.Window("Gobuster Window", layout, icon='images/Coyote.ico', no_titlebar=True, grab_anywhere=True, element_justification='c', alpha_channel=.9)
+    window = sg.Window("Gobuster Window", layout, icon='images/Coyote.ico', grab_anywhere=True, element_justification='c', alpha_channel=.9)
     choice = None
     while True:
         event, values = window.read()
@@ -168,60 +213,4 @@ def Gobuster():
 
 
 
-def Enumeration():
-
-    sg.theme('DarkPurple6')
-
-    layout = [
-        
-            
-            [sg.Text("Coyote", size=(40, 1), font=('Any 15'))],
-            [sg.Text("Enumeration")],
-            [sg.Button("NMAP", button_color=('white', 'firebrick3'), key='-NMAP-')],
-            [sg.Button("Gobuster", button_color=('white', 'firebrick3'), key='-GB-')],
-            [sg.Button("Results", button_color=('white', 'firebrick3'), key='-RS-')],
-            [sg.Button("Exit", button_color=('white', 'firebrick3'), key='-EXIT-')]
-            ]
-    window = sg.Window("Enum Window", layout, icon='images/Coyote.ico', no_titlebar=True, grab_anywhere=True, element_justification='c', alpha_channel=.9)
-    choice = None
-    while True:
-        event, values = window.read()
-        if event == "-NMAP-":
-            NMAP()
-        if event == "-GB-":
-            Gobuster()
-        if event == "-EXIT-" or event == sg.WIN_CLOSED:
-            break
-
-    window.close()
-
-
-def PenHUB():
-
-    sg.theme('DarkPurple6')
-
-    layout = [
-        
-            
-            [sg.Text("Coyote", size=(40, 1), font=('Any 15'))],
-            [sg.Text("Penetration Testing")],
-            [sg.Button("Enumeration", button_color=('white', 'firebrick3'), key='-ENUM-')],
-            [sg.Button("Exploitation", button_color=('white', 'firebrick3'), key='-EXP-')],
-            [sg.Button("Information Gathered", button_color=('white', 'firebrick3'), key='-EOUT-')],
-            [sg.Button("Exit", button_color=('white', 'firebrick3'), key='-EXIT-')]
-            ]
-    window = sg.Window("PEN Window", layout, icon='images/Coyote.ico', no_titlebar=True, grab_anywhere=True, element_justification='c', alpha_channel=.9)
-    choice = None
-    while True:
-        event, values = window.read()
-        if event == "-ENUM-":
-            Enumeration()
-        if event == "-EXP-":
-            break
-        if event == "-EOUT-":
-            EnumResults()
-        if event == "-EXIT-" or event == sg.WIN_CLOSED:
-            break
-
-    window.close()
 
