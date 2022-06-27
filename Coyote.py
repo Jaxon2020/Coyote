@@ -14,6 +14,8 @@ contents = ninfo.read()
 
 ninfo.close()
 
+git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
 
 
 def cli():
@@ -93,16 +95,16 @@ def main():
         """
     
     ART4 = """
-,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,@@@@,,,,,,,,,@@@@,,,,,
-,,,,,@@@@@@@@@@@@@@@@@@,,,,
-,,,,,,@@@@@@@@@@@@@@@@@,,,,
-,,,,,,,,,,,@,,,,@@@@@@@@,,,
-,,,,,,,,,,@@,,,,,,@@@@@@,,,
-,,,,,,,@@@@@@@@,,@@@@@@,,,,
-,,,,,,@@@@@@@@@@@@@,,,,,,,,
-,,,,,,,@@@@@@@,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,
+    ,,,,,,,,,,,,,,,,,,,
+    ,@@@@,,,,,,,,,@@@@,,
+    ,@@@@@@@@@@@@@@@@@@,,
+    ,,@@@@@@@@@@@@@@@@@,,
+     ,,,,,,@,,,,@@@@@@@@,
+     ,,,,,@@,,,,,,@@@@@@,
+    ,,,@@@@@@@@,,@@@@@@,,
+    ,,@@@@@@@@@@@@@,,,,,
+    ,,,@@@@@@@,,,,,,
+      ,,,,,,,,,
 
     """
 
@@ -122,18 +124,18 @@ def main():
     
     layout = [
         
-            [sg.Text(ART4), sg.Text(ART3), sg.Text(ART4)],
-            [sg.Text(ART)],
-            [sg.Text("Homepage")],
-            [sg.Text("Menu WIP: Options below")],
+            [sg.Text(ART4, text_color='#0bff00',background_color='black'), sg.Text(ART3, text_color='#0bff00',background_color='black'), sg.Text(ART4, text_color='#0bff00',background_color='black')],
+            [sg.Text(ART, text_color='#0bff00',background_color='black')],
+            [sg.Text("Homepage", text_color='#0bff00', background_color='black')],
+            [sg.Text("Menu WIP: Options below", text_color='#0bff00', background_color='black')],
             [sg.Button("Get Started", button_color=('white', 'firebrick3'), key='-GS-'), sg.Button("Penetration Testing", button_color=('white', 'firebrick3'), key='-PT-')],
             #[sg.Button("IPTracker", button_color=('white', 'firebrick3'), key='-IP-') ],
-            [sg.Button("CLI", button_color=('white', 'firebrick3'), key='-CLI-') ],
+            [sg.Button("CLI", button_color=('white', 'firebrick3'), key='-CLI-'), sg.Button("NMAP", button_color=('white', 'firebrick3'), key='NMAP') ],
             [sg.Button("Exit", key="-MENUEXIT-", button_color=('white', 'firebrick3'), pad=(250,0))]
           
             
             ]
-    window = sg.Window("Main Menu", layout, icon=icon, grab_anywhere=True, font=('Courier'), resizable=True, auto_size_text=True)
+    window = sg.Window("Main Menu", layout, icon=icon, grab_anywhere=True, font=('Courier'), resizable=True, auto_size_text=True, background_color='black')
     choice = None
 
     while True:
@@ -144,7 +146,8 @@ def main():
             Pen.PenTest()
         if event == "-CLI-":
             cli()
-            
+        if event == 'NMAP':
+            Pen.NMAP()
         if event == "-MENUEXIT-" or event == sg.WIN_CLOSED:
             break
         
