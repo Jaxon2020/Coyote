@@ -14,24 +14,37 @@ contents = ninfo.read()
 
 ninfo.close()
 
-git config --global user.email "you@example.com"
-  git config --global user.name "Your Name"
+
+ART4 = """
+    
+
+    
+███████████████████████████████████
+█─▄▄▄─█─▄▄─█▄─█─▄█─▄▄─█─▄─▄─█▄─▄▄─█
+█─███▀█─██─██▄─▄██─██─███─████─▄█▀█
+▀▄▄▄▄▄▀▄▄▄▄▀▀▄▄▄▀▀▄▄▄▄▀▀▄▄▄▀▀▄▄▄▄▄▀
+    
+    
+    
+    
+    """
+
 
 
 def cli():
 
-    sg.theme('DarkAmber')
+    sg.theme('DarkBlack')
 
     layout = [
         
             
-            [sg.Text("Coyote", size=(40, 1), font=('Any 15'))],
-            [sg.Text("CLI")],
-            [sg.Text("Enter commands and operations below!")],
-            [sg.Text('CLI:'), sg.Input(key='-CIN-',size=(20,1))],
+            [sg.Text(ART4, text_color='#0bff00' )],
+            [sg.Text("CLI",text_color='#0bff00')],
+            [sg.Text("Enter commands and operations below!", text_color='#0bff00')],
+            [sg.Text('CLI:',text_color='#0bff00'), sg.Input(key='-CIN-',size=(20,1))],
             [sg.Output(size=(100,30), key='-COUTPUT-')],
-            [sg.Button("Send", key="-CSEND-", bind_return_key=True)],
-            [sg.Button("Exit", button_color=('white', 'firebrick3'), key='Exit') ]
+            [sg.Button("Send", key="-CSEND-", bind_return_key=True, button_color=('#0bff00', 'Black'))],
+            [sg.Button("Exit", button_color=('#0bff00', 'Black'), key='Exit') ]
             
             
             ]
@@ -119,6 +132,10 @@ def main():
 +------+'      +------+       +------+       +------+      `+------+
     """
     
+
+
+
+    
     sg.theme('DarkAmber')
 
     
@@ -127,11 +144,9 @@ def main():
             [sg.Text(ART4, text_color='#0bff00',background_color='black'), sg.Text(ART3, text_color='#0bff00',background_color='black'), sg.Text(ART4, text_color='#0bff00',background_color='black')],
             [sg.Text(ART, text_color='#0bff00',background_color='black')],
             [sg.Text("Homepage", text_color='#0bff00', background_color='black')],
-            [sg.Text("Menu WIP: Options below", text_color='#0bff00', background_color='black')],
-            [sg.Button("Get Started", button_color=('white', 'firebrick3'), key='-GS-'), sg.Button("Penetration Testing", button_color=('white', 'firebrick3'), key='-PT-')],
-            #[sg.Button("IPTracker", button_color=('white', 'firebrick3'), key='-IP-') ],
-            [sg.Button("CLI", button_color=('white', 'firebrick3'), key='-CLI-'), sg.Button("NMAP", button_color=('white', 'firebrick3'), key='NMAP') ],
-            [sg.Button("Exit", key="-MENUEXIT-", button_color=('white', 'firebrick3'), pad=(250,0))]
+            [sg.Button("Get Started", button_color=('#0bff00', 'Black'), key='-GS-'), sg.Button("Begin the Hunt", button_color=('#0bff00', 'Black'), key='-PT-')],
+            [sg.Button("CLI", button_color=('#0bff00', 'Black'), key='-CLI-'), sg.Button("NMAP", button_color=('#0bff00', 'Black'), key='NMAP') ],
+            [sg.Button("Exit", key="-MENUEXIT-", button_color=('#0bff00', 'Black'), pad=(250,0))]
           
             
             ]
