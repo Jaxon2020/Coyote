@@ -1,4 +1,3 @@
-
 import subprocess
 import PySimpleGUI as sg
 import nmap
@@ -143,7 +142,6 @@ def main():
         
             [sg.Text(ART4, text_color='#0bff00',background_color='black'), sg.Text(ART3, text_color='#0bff00',background_color='black'), sg.Text(ART4, text_color='#0bff00',background_color='black')],
             [sg.Text(ART, text_color='#0bff00',background_color='black')],
-            [sg.Text("Homepage", text_color='#0bff00', background_color='black')],
             [sg.Button("Get Started", button_color=('#0bff00', 'Black'), key='-GS-'), sg.Button("Begin the Hunt", button_color=('#0bff00', 'Black'), key='-PT-')],
             [sg.Button("CLI", button_color=('#0bff00', 'Black'), key='-CLI-'), sg.Button("NMAP", button_color=('#0bff00', 'Black'), key='NMAP') ],
             [sg.Button("Exit", key="-MENUEXIT-", button_color=('#0bff00', 'Black'), pad=(250,0))]
