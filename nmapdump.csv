@@ -1,2 +1,2 @@
 host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
-127.0.0.1;localhost;PTR;tcp;22;ssh;open;OpenSSH;protocol 2.0;syn-ack;8.9;10;cpe:/a:openbsd:openssh:8.9
+10.10.11.130;;;tcp;80;http;open;Apache httpd;;syn-ack;2.4.51;10;cpe:/a:apache:http_server:2.4.51

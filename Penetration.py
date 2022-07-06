@@ -221,14 +221,16 @@ def PenTest():
                 print("No data to display")
             elif(webr == 0):
                 window['-ART-'].update(ART2)
-                window['-DC-'].update((nmr['protocol'].astype(str) + " " + nmr['port'].astype(str) + " " + nmr['name'].astype(str)).to_string(index=False), visible=True)
+                window['-DC-'].update((nmr['protocol'].astype(str) + " " + nmr['port'].astype(str) + " " + nmr['name'].astype(str) + " " + nmr['product'].astype(str) + " " + nmr['version'].astype(str) + " " + nmr['extrainfo'].astype(str)).to_string(index=False), visible=True)
                 #window['-WEB-'].update((nmr['port'].astype(str) + " " + nmr['name'].astype(str)).to_string(index=False), visible=True)
-                window['-INFOTITLE-'].update(("Host:" + " " + nmr['host'][0] + "(" + nmr['hostname'][0] + ")"),visible=True)
+                window['-INFOTITLE-'].update(("Host:" + " " + str(nmr['host'][0]) + "(" + str(nmr['hostname'][0]) + ")"),visible=True)
             else:
                   window['-ART-'].update(ART3)
                   window['-DC-'].update((nmr['protocol'].astype(str) + " " + nmr['port'].astype(str) + " " + nmr['name'].astype(str)).to_string(index=False), visible=True)
                   window['-INFOTITLE-'].update(("Host:" + " " + nmr['host'][0] + "(" + nmr['hostname'][0] + ")"),visible=True)
                   
+#host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
+#10.10.11.130;;;tcp;80;http;open;Apache httpd;;syn-ack;2.4.51;10;cpe:/a:apache:http_server:2.4.51
 
 #////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #//////////////////////DESCRIPTION//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -241,22 +243,21 @@ def PenTest():
             if adinforesults == 0:
                 print("Checking for exploits based on nmap results.")
                 try: 
-          
+                    
                     argsploit = "searchsploit"
 
-                    args1 = nmr['product'][0]
+                    args1 = "Apache" #nmr['product'][0]
 
-                    args2 = 7.6 #nmr['version'][0]
+                    args2 = nmr['version'][0]
 
-                
+                    print(argsploit, args1, args2)
                     output = subprocess.Popen([argsploit, str(args1), str(args2)], stdout=subprocess.PIPE).communicate()[0] 
                     convertout = output.decode('utf-8')
-                    print(parsedata.parsexdata())
-                    window['-exploitinfo-'].update(parsedata.parsexdata(), visible=True)
-
+               
                     filetest = open('exploitdata.txt', 'w')
                     filetest.write(str(convertout))
                     filetest.close()
+                    window['-exploitinfo-'].update(parsedata.parsexdata(), visible=True)
                     print(parsedata.parsexdata())
                 except:
                     print("Error!")
