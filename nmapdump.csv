@@ -1,8 +1,2 @@
-host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
-127.0.0.1;localhost;PTR;tcp;135;msrpc;open;;;syn-ack;;3;
-127.0.0.1;localhost;PTR;tcp;445;microsoft-ds;open;;;syn-ack;;3;
-127.0.0.1;localhost;PTR;tcp;1154;resacommunity;open;;;syn-ack;;3;
-127.0.0.1;localhost;PTR;tcp;1213;mpc-lifenet;open;;;syn-ack;;3;
-127.0.0.1;localhost;PTR;tcp;1271;excw;open;;;syn-ack;;3;
-127.0.0.1;localhost;PTR;tcp;3389;ms-wbt-server;open;;;syn-ack;;3;
-127.0.0.1;localhost;PTR;tcp;16992;amt-soap-http;open;;;syn-ack;;3;
+host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
+127.0.0.1;localhost;PTR;tcp;22;ssh;open;OpenSSH;protocol 2.0;syn-ack;8.9;10;cpe:/a:openbsd:openssh:8.9

@@ -6,7 +6,7 @@ import os
 import GUItraffic as Packets
 from shlex import *
 import sqlite3 as sql
-
+import parsedata
 
 ninfo = open('nmapinfo.txt', 'r')
 contents = ninfo.read()
@@ -173,7 +173,7 @@ def PenTest():
 
     middlecol = [
     
-    [sg.pin(sg.Text("Waiting for Data", key='-exploitinfo-', visible=False, text_color='#0bff00'))]
+    [sg.pin(sg.Text("Waiting for Data", key='-exploitinfo-', visible=False, text_color='#0bff00', auto_size_text=True))]
     
     ]
 
@@ -237,22 +237,27 @@ def PenTest():
         if event == "-exploits-":
 
             adinforesults = 0
-            print("Test")
+            
             if adinforesults == 0:
                 print("Checking for exploits based on nmap results.")
                 try: 
+          
                     argsploit = "searchsploit"
 
                     args1 = nmr['product'][0]
 
-                    args2 = nmr['version'][0]
+                    args2 = 7.6 #nmr['version'][0]
 
-                    finalresult =  join([argsploit, str(args1), str(args2)])
+                
+                    output = subprocess.Popen([argsploit, str(args1), str(args2)], stdout=subprocess.PIPE).communicate()[0] 
+                    convertout = output.decode('utf-8')
+                    print(parsedata.parsexdata())
+                    window['-exploitinfo-'].update(parsedata.parsexdata(), visible=True)
 
-                    print(finalresult)
-
-                    output = subprocess.Popen(finalresult, stdout=subprocess.PIPE).communicate()[0] 
-                    print(output.decode('utf-8'))
+                    filetest = open('exploitdata.txt', 'w')
+                    filetest.write(str(convertout))
+                    filetest.close()
+                    print(parsedata.parsexdata())
                 except:
                     print("Error!")
 
