@@ -1,6 +1,8 @@
+
 import subprocess
 import PySimpleGUI as sg
 import nmap
+from numpy import empty
 import pandas as ps
 import os
 import GUItraffic as Packets
@@ -165,9 +167,9 @@ def PenTest():
 
     rightcol = [
     
-        [sg.Button("CLI", key='-CLI-', button_color=('#0bff00', 'Black')), sg.Button("NMAP", key="NMAP", button_color=('#0bff00', 'Black'))],
+        [sg.Button("CLI", key='-CLI-', button_color=('#0bff00', 'Black')), sg.Button("NMAP", key="NMAP", button_color=('#0bff00', 'Black')), sg.Button("Check List", key='-CL-', button_color=('#0bff00', 'Black')) ],
         [sg.Button('Output', key='OUTPUT', button_color=('#0bff00', 'Black')), sg.Button("Add Info", key='-ADEXINFO-', button_color=('#0bff00', 'Black'))],
-        [sg.Button("Enlarge Output", key='-ENLARGE-', button_color=('#0bff00', 'Black'))]
+        
         
     ]
 
@@ -187,19 +189,20 @@ def PenTest():
 
             [sg.Text(ART4, text_color='#0bff00')],
             
-            [sg.Button("Options: ", key='-OP-', button_color=('#0bff00', 'Black')), sg.pin(sg.Column(rightcol, visible=False, key="-OPC-")), sg.Push()],
+            [sg.Button("Options: ", key='-OP-', button_color=('#0bff00', 'Black'))],
+            [sg.pin(sg.Column(rightcol, visible=False, key="-OPC-")), sg.Push()],
             [sg.Column(leftcol, element_justification='c') ,sg.Text(ART, key='-ART-', text_color='#0bff00'), sg.pin(sg.Text("Waiting for Data", key='-WEB-', visible=False, text_color='#0bff00'))],
             [sg.Column(middlecol, element_justification='c')],
             [sg.Text("", key='-EXINFO-', visible=False)],
             [sg.pin(sg.Text("Add Info:", text_color='#0bff00', visible=False)),sg.pin(sg.Input(key='-INFOIN-', visible=False)),sg.pin(sg.Input('CLI', key='-CLIIN-', visible=False)), sg.pin(sg.Button('Submit', key='SUB', visible=False, button_color=('#0bff00', 'Black')))],
-            [sg.pin(sg.Output(size=(40,15), key='-1OUT-', text_color='#0bff00', visible=False))],
+            [sg.pin(sg.Output(size=(40,15), key='-1OUT-', text_color='#0bff00', visible=False)), sg.pin(sg.Text("", key="-CHECKLIST-", visible=False, text_color='#0bff00'))],
             [sg.Button("Display", key="-ESEND-", bind_return_key=True, button_color=('#0bff00', 'Black'))],
             [sg.Button("Find Exploits", key="-exploits-", visible=False, button_color=('#0bff00', 'Black'))],
             [sg.Button("Exit", button_color=('#0bff00', 'Black'), key='Exit', auto_size_button=True) ]
             
             
             ]
-    window = sg.Window("Begin the Hunt", layout, icon='images/Coyote.ico', grab_anywhere=True, element_justification='c', font=('Courier'), resizable=True, auto_size_text=True)
+    window = sg.Window("Begin the Hunt", layout, icon='images/Coyote.ico', grab_anywhere=True, font=('Courier'), resizable=True, auto_size_text=True)
     choice = None
 
 
@@ -271,6 +274,37 @@ def PenTest():
 #//////////////////////DESCRIPTION//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
 
+        if event == '-CL-':
+            window['-CHECKLIST-'].update(visible=True)
+            nmapcheck = 0
+            web = 0
+            dns = 0
+
+            
+            nmr = ps.read_csv('nmapdump.csv', sep = ';', header = 0)        
+
+            webstate = False
+            nmapstate = False
+            dnsstate = False
+
+            if nmr.empty == False:
+                nmapstate = True
+            else:
+                nmapstate = False
+
+            web = "✔" if webstate else "❌"
+            nmapcheck = "✔" if nmapstate else "❌"
+            dns = "✔" if dnsstate else "❌"
+
+
+            checklist = ("Enumeration Checklist \n" + "Nmap:" + nmapcheck + "\nWeb:" + web + "\nDNS:" + dns)
+            window['-CHECKLIST-'].update(checklist)
+
+
+
+#////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#//////////////////////DESCRIPTION//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
         if event == '-ADEXINFO-':
             window['-EXINFO-'].update(values['-INFOIN-'], visible=True)
 

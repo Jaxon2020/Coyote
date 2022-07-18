@@ -1,2 +1,5 @@
-host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
-10.10.11.130;;;tcp;80;http;open;Apache httpd;;syn-ack;2.4.51;10;cpe:/a:apache:http_server:2.4.51
+host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
+127.0.0.1;localhost;PTR;tcp;135;msrpc;open;;;syn-ack;;3;
+127.0.0.1;localhost;PTR;tcp;445;microsoft-ds;open;;;syn-ack;;3;
+127.0.0.1;localhost;PTR;tcp;3389;ms-wbt-server;open;;;syn-ack;;3;
+127.0.0.1;localhost;PTR;tcp;16992;amt-soap-http;open;;;syn-ack;;3;
