@@ -57,8 +57,6 @@ def NMAP():
 
                 nm = nmap.PortScanner()
                 nm.scan(hosts=values['-IP-'], arguments=values['-ARGS-'])
-                list = nm.csv()
-
 
                 if os.path.exists("nmapdump.csv"):
                     os.remove("nmapdump.csv")
@@ -159,7 +157,7 @@ def PenTest():
 
         [sg.pin(sg.Text("Awaiting Data", key='-INFOTITLE-', visible=False, text_color='#0bff00')), sg.Push()],
         
-        [sg.pin(sg.Text("Waiting for Data", key='-DC-', visible=False, text_color='#0bff00'))],
+        [sg.pin(sg.Text("Waiting for Data", key='-DC-', visible=False, text_color='#0bff00', expand_x=True, expand_y=True))],
         
         
 
@@ -168,7 +166,7 @@ def PenTest():
     rightcol = [
     
         [sg.Button("CLI", key='-CLI-', button_color=('#0bff00', 'Black')), sg.Button("NMAP", key="NMAP", button_color=('#0bff00', 'Black')), sg.Button("Check List", key='-CL-', button_color=('#0bff00', 'Black')), sg.Button("Vuln List", key='-VCL-', button_color=('#0bff00', 'Black')) ],
-        [sg.Button('Output', key='OUTPUT', button_color=('#0bff00', 'Black')), sg.Button("Add Info", key='-ADEXINFO-', button_color=('#0bff00', 'Black'))],
+        [sg.Button('Output', key='OUTPUT', button_color=('#0bff00', 'Black')), sg.Button("Add Info", key='-ADEXINFO-', button_color=('#0bff00', 'Black')), sg.Button("Enumerate", key='-Enumerate-', button_color=('#0bff00', 'Black'))],
         
         
     ]
@@ -219,17 +217,46 @@ def PenTest():
 #////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #//////////////////////DESCRIPTION//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
+        if event == "-Enumerate-":
+            IP = sg.popup_get_text('Title', 'Please input IP')
+            try: 
+                nm = nmap.PortScanner()
+                nm.scan(hosts=IP, arguments="-sV -sC -Pn")
+
+                if os.path.exists("nmapdump.csv"):
+                    os.remove("nmapdump.csv")
+                else:
+                    print("The file does not exist")
+                file = open('nmapdump.csv', 'a')
+                file.write(nm.csv())
+                file.close()
+                test_data = ps.read_csv('nmapdump.csv', sep = ';', header = 0)
+
+
+                result = subprocess(["gobuster", "-u", "https://" + IP + "/", "-w", "/usr/share/dirb/wordlists/common.txt" ,"-o", "result.txt"])
+
+                
+                sg.popup('Sucess in Enumeration', 'Enumeration was sucessful')
+
+            except:
+                sg.popup('Error in Enumeration', 'An error as occured when conducting automated enumeration.')
+
+
+#////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#//////////////////////DESCRIPTION//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
+
         if event == "-ESEND-":
             
             window['-exploits-'].update(visible=True)
-            webr = 0
+            webr = 1
             nmr = ps.read_csv('nmapdump.csv', sep = ';', header = 0)
-            if nmr.empty:
+            if (nmr.empty and webr == 0):
                 print("No data to display")
-            elif(webr == 0):
-                window['-ART-'].update(ART2)
+            elif(webr != 0):
+                window['-ART-'].update(ART3)
                 window['-DC-'].update((nmr['protocol'].astype(str) + " " + nmr['port'].astype(str) + " " + nmr['name'].astype(str) + " " + nmr['product'].astype(str) + " " + nmr['version'].astype(str) + " " + nmr['extrainfo'].astype(str)).to_string(index=False), visible=True)
-                #window['-WEB-'].update((nmr['port'].astype(str) + " " + nmr['name'].astype(str)).to_string(index=False), visible=True)
+                window['-WEB-'].update((nmr['port'].astype(str) + " " + nmr['name'].astype(str)).to_string(index=False), visible=True)
                 window['-INFOTITLE-'].update(("Host:" + " " + str(nmr['host'][0]) + "(" + str(nmr['hostname'][0]) + ")"),visible=True)
             else:
                   window['-ART-'].update(ART3)
@@ -253,7 +280,7 @@ def PenTest():
                     
                     argsploit = "searchsploit"
 
-                    args1 = "Apache" #nmr['product'][0]
+                    args1 = nmr['product'][0]
 
                     args2 = nmr['version'][0]
 
@@ -283,13 +310,13 @@ def PenTest():
             opened4 =  not opened4
             window['-CHECKLIST-'].update(visible=opened4)
             nmapcheck = 0
-            web = 0
+            web = 1
             dns = 0
            
             
             nmr = ps.read_csv('nmapdump.csv', sep = ';', header = 0)        
 
-            webstate = False
+            webstate = False if web == 0 else True
             nmapstate = False
             dnsstate = False
 
