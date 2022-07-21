@@ -167,7 +167,7 @@ def PenTest():
 
     rightcol = [
     
-        [sg.Button("CLI", key='-CLI-', button_color=('#0bff00', 'Black')), sg.Button("NMAP", key="NMAP", button_color=('#0bff00', 'Black')), sg.Button("Check List", key='-CL-', button_color=('#0bff00', 'Black')) ],
+        [sg.Button("CLI", key='-CLI-', button_color=('#0bff00', 'Black')), sg.Button("NMAP", key="NMAP", button_color=('#0bff00', 'Black')), sg.Button("Check List", key='-CL-', button_color=('#0bff00', 'Black')), sg.Button("Vuln List", key='-VCL-', button_color=('#0bff00', 'Black')) ],
         [sg.Button('Output', key='OUTPUT', button_color=('#0bff00', 'Black')), sg.Button("Add Info", key='-ADEXINFO-', button_color=('#0bff00', 'Black'))],
         
         
@@ -194,19 +194,23 @@ def PenTest():
             [sg.Column(leftcol, element_justification='c') ,sg.Text(ART, key='-ART-', text_color='#0bff00'), sg.pin(sg.Text("Waiting for Data", key='-WEB-', visible=False, text_color='#0bff00'))],
             [sg.Column(middlecol, element_justification='c')],
             [sg.Text("", key='-EXINFO-', visible=False)],
-            [sg.pin(sg.Text("Add Info:", text_color='#0bff00', visible=False)),sg.pin(sg.Input(key='-INFOIN-', visible=False)),sg.pin(sg.Input('CLI', key='-CLIIN-', visible=False)), sg.pin(sg.Button('Submit', key='SUB', visible=False, button_color=('#0bff00', 'Black')))],
-            [sg.pin(sg.Output(size=(40,15), key='-1OUT-', text_color='#0bff00', visible=False)), sg.pin(sg.Text("", key="-CHECKLIST-", visible=False, text_color='#0bff00'))],
+            [sg.pin(sg.Text("Add Info:", text_color='#0bff00', visible=False)),sg.pin(sg.Input(key='-INFOIN-', visible=False))],
+            [sg.pin(sg.Text("", key="-CHECKLIST-", visible=False, text_color='#0bff00')), sg.pin(sg.Text("", key="-VulnChecklist-", visible=False, text_color='#0bff00'))],
+            [sg.pin(sg.Input('CLI', key='-CLIIN-', visible=False)), sg.pin(sg.Button('Submit', key='SUB', visible=False, button_color=('#0bff00', 'Black')))],
+            [sg.pin(sg.Output(size=(40,15), key='-1OUT-', text_color='#0bff00', visible=False))],
             [sg.Button("Display", key="-ESEND-", bind_return_key=True, button_color=('#0bff00', 'Black'))],
             [sg.Button("Find Exploits", key="-exploits-", visible=False, button_color=('#0bff00', 'Black'))],
             [sg.Button("Exit", button_color=('#0bff00', 'Black'), key='Exit', auto_size_button=True) ]
             
             
             ]
+
+
     window = sg.Window("Begin the Hunt", layout, icon='images/Coyote.ico', grab_anywhere=True, font=('Courier'), resizable=True, auto_size_text=True)
     choice = None
 
 
-    opened1, opened2, opened3 = False, False, False
+    opened1, opened2, opened3, opened4, opened5 = False, False, False, False, False
 
     while True:
         event, values = window.read()
@@ -275,11 +279,13 @@ def PenTest():
 #/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
 
         if event == '-CL-':
-            window['-CHECKLIST-'].update(visible=True)
+            
+            opened4 =  not opened4
+            window['-CHECKLIST-'].update(visible=opened4)
             nmapcheck = 0
             web = 0
             dns = 0
-
+           
             
             nmr = ps.read_csv('nmapdump.csv', sep = ';', header = 0)        
 
@@ -305,6 +311,37 @@ def PenTest():
 #////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #//////////////////////DESCRIPTION//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+
+
+
+        if event == '-VCL-':
+
+            opened5 = not opened5
+            window['-VulnChecklist-'].update(visible=opened5)
+            Ports = 0
+            web = 0
+            inputinject = 0
+
+            Portsstate = False
+            webstate = False
+            inputinjectstate = False
+
+            Ports = "✔" if Portsstate else "❌"
+            web = "✔" if webstate else "❌"
+            inputinject = "✔" if inputinjectstate else "❌"
+
+
+            checklist = ("Vuln Checklist \n" + "Ports:" + Ports + "\nWeb:" + web + "\nInjection:" + inputinject)
+            window['-VulnChecklist-'].update(checklist)
+
+
+
+
+#////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#//////////////////////DESCRIPTION//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+
+
         if event == '-ADEXINFO-':
             window['-EXINFO-'].update(values['-INFOIN-'], visible=True)
 
