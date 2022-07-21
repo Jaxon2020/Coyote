@@ -143,8 +143,8 @@ def main():
             [sg.Text(ART4, text_color='#0bff00',background_color='black'), sg.Text(ART3, text_color='#0bff00',background_color='black'), sg.Text(ART4, text_color='#0bff00',background_color='black')],
             [sg.Text(ART, text_color='#0bff00',background_color='black')],
             [sg.Button("Begin the Hunt", button_color=('#0bff00', 'Black'), key='-PT-')],
-            [sg.Button("CLI", button_color=('#0bff00', 'Black'), key='-CLI-'), sg.Button("NMAP", button_color=('#0bff00', 'Black'), key='NMAP') ],
-            [sg.Button("Exit", key="-MENUEXIT-", button_color=('#0bff00', 'Black'), pad=(250,0))]
+            [sg.Button("Tools", button_color=('#0bff00', 'Black'), key='-TOOLS-'), sg.Button("Exit", key="-MENUEXIT-", button_color=('#0bff00', 'Black')) ]
+
           
             
             ]
@@ -157,10 +157,8 @@ def main():
 
         if event == "-PT-":
             Pen.PenTest()
-        if event == "-CLI-":
+        if event == "-TOOLS-":
             cli()
-        if event == 'NMAP':
-            Pen.NMAP()
         if event == "-MENUEXIT-" or event == sg.WIN_CLOSED:
             break
         
