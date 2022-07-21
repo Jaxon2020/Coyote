@@ -232,10 +232,16 @@ def PenTest():
                 file.close()
                 test_data = ps.read_csv('nmapdump.csv', sep = ';', header = 0)
 
+                #print(IP.astype(int))
+                #result = subprocess(["gobuster", "-u", "https://" + IP.astype(int) + "/", "-w", "/usr/share/dirb/wordlists/common.txt" ,"-o", "result.txt"])
 
-                result = subprocess(["gobuster", "-u", "https://" + IP + "/", "-w", "/usr/share/dirb/wordlists/common.txt" ,"-o", "result.txt"])
+                #rint(result)
 
-                
+                f = open("blah.txt", "w")
+                subprocess.call(["whois", IP.astype(int)], stdout=f)
+
+
+
                 sg.popup('Sucess in Enumeration', 'Enumeration was sucessful')
 
             except:
