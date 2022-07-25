@@ -238,7 +238,7 @@ def PenTest():
                 #rint(result)
 
                 f = open("blah.txt", "w")
-                subprocess.call(["whois", IP.astype(int)], stdout=f)
+                subprocess.call(["whois", IP], stdout=f)
 
 
 

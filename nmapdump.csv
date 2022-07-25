@@ -1,5 +1,5 @@
 host;hostname;hostname_type;protocol;port;name;state;product;extrainfo;reason;version;conf;cpe
-127.0.0.1;localhost;PTR;tcp;135;msrpc;open;Microsoft Windows RPC;;syn-ack;;10;cpe:/o:microsoft:windows
+127.0.0.1;localhost;PTR;tcp;135;msrpc;open;;;syn-ack;;3;
 127.0.0.1;localhost;PTR;tcp;445;microsoft-ds;open;;;syn-ack;;3;
-127.0.0.1;localhost;PTR;tcp;3389;ms-wbt-server;open;Microsoft Terminal Services;;syn-ack;;10;cpe:/o:microsoft:windows
-127.0.0.1;localhost;PTR;tcp;16992;http;open;Intel Active Management Technology User Notification Service httpd;;syn-ack;15.0.30.1902;10;cpe:/h:intel:active_management_technology:15.0.30.1902
+127.0.0.1;localhost;PTR;tcp;3389;ms-wbt-server;open;;;syn-ack;;3;
+127.0.0.1;localhost;PTR;tcp;16992;amt-soap-http;open;;;syn-ack;;3;
