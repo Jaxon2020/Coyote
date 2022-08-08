@@ -7,8 +7,7 @@ from scapy.all import ARP, Ether, srp
 import subprocess
 import parsedata
 import hashlib
-import test
-
+from Scrap import *
 
 
 
@@ -132,6 +131,12 @@ def SearchSploit():
 
 
 
+def AddHosts():
+    theip = input("Enter IP to add to /etc/hosts: ")
+    subprocess.call([theip, ])
+
+
+
 def PPasswordCracker():
 
     print("**************PASSWORD CRACKER ******************")
@@ -179,8 +184,6 @@ def PPasswordCracker():
         print('\n')
     print("*****************  Thank you  **********************")
 
-def DHCPEAR():
-    test.listen_dhcp()
 
 
 
@@ -189,6 +192,7 @@ parser.add_argument('-nm',action='store_true', help='Network Mapper: NMAP - Used
 parser.add_argument('-ns',action='store_true', help='A network scanner that uses ARP to scan the entire network of all devices and returns their IP and MAC address.');
 parser.add_argument('-se',action='store_true', help='Searchsploit is a tool that will search up possible exploits on vulnerabilities based on the arguments you give.');
 parser.add_argument('-pc',action='store_true', help='A simple password cracker that currently can only break MD5 hashes.');
+parser.add_argument('-webscrap',action='store_true', help='Searchsploit is a tool that will search up possible exploits on vulnerabilities based on the arguments you give.');
 parser.add_argument('-dear',action='store_true', help='A DHCP listner to monitor when new devices join the network. As well as collect valuable information on the hosts. ');
 args = parser.parse_args()
 
@@ -200,8 +204,8 @@ if args.se:
     SearchSploit()
 if args.pc:
     PPasswordCracker()
-if args.dear:
-    DHCPEAR()
+if args.webscrap:
+    webscrap()
 else:
     print("what")
     

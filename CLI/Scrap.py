@@ -77,18 +77,16 @@ def crawl(url, max_urls=30):
             break
         crawl(link, max_urls=max_urls)
 
-
-if __name__ == "__main__":
-    import argparse
-    parser = argparse.ArgumentParser(description="Link Extractor Tool with Python")
-    parser.add_argument("url", help="The URL to extract links from.")
-    parser.add_argument("-m", "--max-urls", help="Number of max URLs to crawl, default is 30.", default=30, type=int)
     
-    args = parser.parse_args()
-    url = args.url
-    max_urls = args.max_urls
-    # domain name of the URL without the protocol
+
+
+def webscrap():
+
+    url = input("Enter URL: ") 
+    max_urls = 30
+    global domain_name
     domain_name = urlparse(url).netloc
+
     crawl(url, max_urls=max_urls)
 
     print("[+] Total Internal links:", len(internal_urls))
@@ -105,4 +103,3 @@ if __name__ == "__main__":
     with open(f"{domain_name}_external_links.txt", "w") as f:
         for external_link in external_urls:
             print(external_link.strip(), file=f)
-        
